@@ -1,6 +1,6 @@
 import FreeSimpleGUI as sg
 import Extractfilebackend
-
+import os
 
 def extract_files():
     lable_com = sg.Text("Extract your compressed files")
@@ -37,8 +37,12 @@ def extract_files():
                 
             case "Extract":
                 archivepath = values["archive"]
+                split_tup = os.path.splitext(archivepath)
+                file_extension = split_tup[1]
                 dest_dir = values["folder"]
-                if not archivepath or not dest_dir:
+                if file_extension != ".zip":
+                    sg.popup("Please choose zip files for extraction")
+                elif not archivepath or not dest_dir:
                     sg.popup("Please choose compressed files or destination folder before file extraction.")
                 else:
                     Extractfilebackend.extract_files(archivepath, dest_dir)
